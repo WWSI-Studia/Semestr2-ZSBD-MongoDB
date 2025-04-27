@@ -1,6 +1,6 @@
 ------------------------------------ DUMP BAZY DANYCH ------------------------------------ 
 
-sudo docker-compose exec -T mongo-container sh -c "mongodump --archive -u user -p password" > ./db-dump
+sudo docker-compose exec -T mongo-container sh -c "mongodump --archive -u user -p password" > ./db-to-db-migration/db-dump
 
 ------------------------------------ + DUMP REGUŁ (walidacji) ------------------------------------ 
 
