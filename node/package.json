@@ -1,0 +1,19 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "main": "migration.ts",
+  "scripts": {
+    "start": "node ./src/migration.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "fs": "^0.0.1-security",
+    "mssql": "^11.0.1"
+  }
+}
