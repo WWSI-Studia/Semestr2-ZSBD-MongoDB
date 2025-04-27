@@ -1,0 +1,66 @@
+------------------------------------ DUMP BAZY DANYCH ------------------------------------ 
+
+sudo docker-compose exec -T mongo-container sh -c "mongodump --archive -u user -p password" > ./db-dump
+
+------------------------------------ + DUMP REGUŁ (walidacji) ------------------------------------ 
+
+1. uruchom MongoBD Shell poprzez MongoDB Compass lub połącz się bezpośrednio (polecam przez Compass)
+
+dla Dockera:
+docker exec -it mongodb-mongo-container-1 mongosh -u user -p password --eval "
+  
+2. zmień bazę na ZSBD
+use ZSBD
+
+3. wylistuj reguły walidacji 
+var collections = db.getCollectionNames();
+var validationRules = {};
+collections.forEach(function(collectionName) {
+  var collectionInfo = db.getCollectionInfos({ name: collectionName })[0];
+  
+  // Check if the collection has validation rules
+  if (collectionInfo.options && collectionInfo.options.validator) {
+    // If validation rules exist, stringify the entire object to prevent [Object]
+    validationRules[collectionName] = JSON.stringify(collectionInfo.options.validator, null, 2);
+  } else {
+    validationRules[collectionName] = 'Brak reguł walidacji';
+  }
+});
+
+printjson(validationRules);
+
+
+------------------------------------ RESTORE BAZY ------------------------------------ 
+
+1. skopiuj dump do dockera
+sudo docker-compose exec mongodb-mongo-container-1 sh -c "ls -l db-dump"
+
+2. wykonaj restore
+sudo docker-compose exec -T mongo-container sh -c "mongorestore --archive=db-dump --uri='mongodb://user:password@localhost:27017'"
+
+------------------------------------ + RESTORE REGUŁ ------------------------------------ 
+
+Aby przenieść reguły do bazy
+1. uruchom
+var validationRules = // Otrzymany wynik z poprzedniego
+
+// Iteracja po regułach walidacji
+for (var collectionName in validationRules) {
+    var validator = validationRules[collectionName];
+    if (validator !== 'Brak reguł walidacji') {
+        // Jeśli reguła jest zapisana jako string, zamień ją na obiekt JSON
+        if (typeof validator === 'string') {
+            try {
+                validator = JSON.parse(validator); // Parsowanie stringu na obiekt
+            } catch (e) {
+                print('Błąd parsowania reguł walidacji dla kolekcji ' + collectionName);
+                continue;
+            }
+        }
+        
+        // Tworzenie kolekcji z walidatorem
+        db.createCollection(collectionName, {
+            validator: validator
+        });
+    }
+}
