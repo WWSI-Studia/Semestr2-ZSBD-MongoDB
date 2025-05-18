@@ -26,6 +26,7 @@ db.incident.aggregate([
     },
     {
       $addFields: {
+        shift_id: { $arrayElemAt: ["$shift_info._id", 0] },
         shift_name: { $arrayElemAt: ["$shift_info.shift_name", 0] },
         report_hour: { $hour: "$report_time" }
       }
@@ -35,19 +36,19 @@ db.incident.aggregate([
         _id: 1,
         device_id: 1,
         report_time: 1,
-        shift_name: 1,
         report_hour: 1,
+        shift_id: 1,
+        shift_name: 1,
       }
     }
   ]);
 
 
 // 2 - Czas postoju urządzenia ($subtract, $sum, $match) 
-
 db.incident.aggregate([
     {
       $match: {
-        device_id: ObjectId("DEVICE_ID_HERE")
+        device_id: "1"
       }
     },
     {
@@ -70,33 +71,29 @@ db.incident.aggregate([
           $function: {
             body: function(incidents) {
               if (incidents.length === 0) return 0;
-              
-              // Sort for safety
+            
+              // Sort safely
               incidents.sort((a, b) => a.report_time - b.report_time);
-              
+            
               let merged = [];
               let current = {
-                start: incidents[0].report_time,
-                end: incidents[0].repair_time
+                start: new Date(incidents[0].report_time),
+                end: new Date(incidents[0].repair_time)
               };
-              
+            
               for (let i = 1; i < incidents.length; i++) {
-                const next = incidents[i];
-                if (next.report_time <= current.end) {
-                  // Overlapping - extend end
-                  current.end = new Date(Math.max(current.end, next.repair_time));
+                const nextStart = report_time;
+                const nextEnd = repair_time;
+            
+                if (nextStart <= current.end) {
+                  current.end = new Date(Math.max(current.end.getTime(), nextEnd.getTime()));
                 } else {
-                  // No overlap - push and start new
                   merged.push(current);
-                  current = {
-                    start: next.report_time,
-                    end: next.repair_time
-                  };
+                  current = { start: nextStart, end: nextEnd };
                 }
               }
-              merged.push(current); // last one
-  
-              // Sum total downtime
+              merged.push(current);
+            
               let total = 0;
               for (let interval of merged) {
                 total += interval.end - interval.start;
@@ -118,94 +115,174 @@ db.incident.aggregate([
   ]);
 
 // 3 - Czas postoju urządzenia + Pomiń weekendy — filtruj z użyciem $dayOfWeek i $match 
-
 db.incident.aggregate([
-    {
-      $match: {
-        device_id: ObjectId("DEVICE_ID_HERE")
-      }
-    },
-    {
-      $sort: { report_time: 1 }
-    },
-    {
-      $setWindowFields: {
-        partitionBy: "$device_id",
-        sortBy: { report_time: 1 },
-        output: {
-          previous_repair_time: {
-            $shift: {
-              output: "$repair_time",
-              by: -1
-            }
-          }
+  { $match: { device_id: "1" } },
+  { $sort: { report_time: 1 } },
+
+  // Step 1: group and prepare for merging
+  {
+    $group: {
+      _id: "$device_id",
+      incidents: {
+        $push: {
+          report_time: "$report_time",
+          repair_time: "$repair_time"
         }
-      }
-    },
-    {
-      $addFields: {
-        effective_start_time: {
-          $cond: {
-            if: {
-              $and: [
-                { $ne: ["$previous_repair_time", null] },
-                { $gt: ["$report_time", "$previous_repair_time"] }
-              ]
-            },
-            then: "$report_time",
-            else: {
-              $cond: {
-                if: { $ne: ["$previous_repair_time", null] },
-                then: "$previous_repair_time",
-                else: "$report_time"
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      $addFields: {
-        downtime_ms: {
-          $cond: {
-            if: {
-              $or: [
-                {
-                  $and: [
-                    { $eq: [{ $dayOfWeek: "$effective_start_time" }, 7] }, // Sobota
-                    { $gte: [{ $hour: "$effective_start_time" }, 6] }
-                  ]
-                },
-                {
-                  $eq: [{ $dayOfWeek: "$effective_start_time" }, 1] // Niedziela
-                },
-                {
-                  $and: [
-                    { $eq: [{ $dayOfWeek: "$effective_start_time" }, 2] }, // Poniedziałek
-                    { $lt: [{ $hour: "$effective_start_time" }, 6] }
-                  ]
-                }
-              ]
-            },
-            then: 0,
-            else: { $subtract: ["$repair_time", "$effective_start_time"] }
-          }
-        }
-      }
-    },
-    {
-      $group: {
-        _id: "$device_id",
-        total_downtime_ms: { $sum: "$downtime_ms" }
-      }
-    },
-    {
-      $project: {
-        total_downtime_minutes: { $divide: ["$total_downtime_ms", 1000 * 60] }
       }
     }
-  ]);
-  
+  },
+
+  // Step 2: use $function to merge overlapping intervals
+  {
+    $addFields: {
+      merged: {
+        $function: {
+          body: function(incidents) {
+            if (!incidents.length) return [];
+
+            // Convert to Date
+            incidents = incidents.map(i => ({
+              start: new Date(i.report_time),
+              end: new Date(i.repair_time)
+            }));
+
+            // Sort
+            incidents.sort((a, b) => a.start - b.start);
+
+            const merged = [];
+            let current = { ...incidents[0] };
+
+            for (let i = 1; i < incidents.length; i++) {
+              const next = incidents[i];
+              if (next.start <= current.end) {
+                current.end = new Date(Math.max(current.end.getTime(), next.end.getTime()));
+              } else {
+                merged.push(current);
+                current = { ...next };
+              }
+            }
+            merged.push(current);
+
+            return merged.map(m => ({
+              report_time: m.start,
+              repair_time: m.end
+            }));
+          },
+          args: ["$incidents"],
+          lang: "js"
+        }
+      }
+    }
+  },
+
+  // Step 3: flatten merged intervals
+  { $unwind: "$merged" },
+
+  // Step 4: convert to Date (ensures consistency)
+  {
+    $addFields: {
+      report_time: { $toDate: "$merged.report_time" },
+      repair_time: { $toDate: "$merged.repair_time" }
+    }
+  },
+
+  // Step 5: calculate raw duration and weekend approximations
+  {
+    $project: {
+      device_id: "$_id",
+      report_time: 1,
+      repair_time: 1,
+      total_ms: { $subtract: ["$repair_time", "$report_time"] },
+
+      week_diff: {
+        $floor: {
+          $divide: [
+            { $subtract: ["$repair_time", "$report_time"] },
+            1000 * 60 * 60 * 24 * 7
+          ]
+        }
+      },
+
+      start_day: { $dayOfWeek: "$report_time" },
+      start_hour: { $hour: "$report_time" },
+      end_day: { $dayOfWeek: "$repair_time" },
+      end_hour: { $hour: "$repair_time" }
+    }
+  },
+
+  {
+    $addFields: {
+      approx_weekend_ms: {
+        $multiply: ["$week_diff", 1000 * 60 * 60 * 48]
+      },
+
+      extra_weekend_start_ms: {
+        $cond: [
+          {
+            $or: [
+              { $and: [{ $eq: ["$start_day", 7] }, { $gte: ["$start_hour", 6] }] },
+              { $eq: ["$start_day", 1] },
+              { $and: [{ $eq: ["$start_day", 2] }, { $lt: ["$start_hour", 6] }] }
+            ]
+          },
+          1000 * 60 * 60 * 1,
+          0
+        ]
+      },
+
+      extra_weekend_end_ms: {
+        $cond: [
+          {
+            $or: [
+              { $and: [{ $eq: ["$end_day", 7] }, { $gte: ["$end_hour", 6] }] },
+              { $eq: ["$end_day", 1] },
+              { $and: [{ $eq: ["$end_day", 2] }, { $lt: ["$end_hour", 6] }] }
+            ]
+          },
+          1000 * 60 * 60 * 1,
+          0
+        ]
+      }
+    }
+  },
+
+  {
+    $addFields: {
+      total_weekend_ms: {
+        $add: ["$approx_weekend_ms", "$extra_weekend_start_ms", "$extra_weekend_end_ms"]
+      },
+      net_downtime_ms: {
+        $subtract: [
+          "$total_ms",
+          {
+            $add: [
+              "$approx_weekend_ms",
+              "$extra_weekend_start_ms",
+              "$extra_weekend_end_ms"
+            ]
+          }
+        ]
+      }
+    }
+  },
+
+  // Step 6: group per device again
+  {
+    $group: {
+      _id: "$device_id",
+      total_downtime_ms: { $sum: "$net_downtime_ms" }
+    }
+  },
+
+  // Final step: convert to minutes
+  {
+    $project: {
+      _id: 0,
+      device_id: "$_id",
+      total_downtime_minutes: { $divide: ["$total_downtime_ms", 1000 * 60] }
+    }
+  }
+]);
 
 // 4 - Ile % urządzeń jest w fazie awarii ($group, $count, $project) 
 
@@ -228,7 +305,7 @@ var devicesWithActiveIncidents = db.incident.aggregate([
   ]).toArray(); // Konwertujemy wynik na tablicę, by łatwiej manipulować
   
   // Krok 2: Zliczamy liczbę wszystkich urządzeń
-  var totalDevices = db.incident.distinct("device_id").length;
+  var totalDevices = db.device.countDocuments();
   
   // Krok 3: Obliczamy procent urządzeń bez repair_time
   var devicesWithActiveIncidentsCount = devicesWithActiveIncidents[0] ? devicesWithActiveIncidents[0].devices_with_active_incidents : 0;
@@ -278,3 +355,4 @@ db.incident.aggregate([
 // 6 - własne
 // 7 - własne
 // 8 - własne
+

@@ -1,547 +1,547 @@
 [
   {
-    "_id": "1",
+    "_id": 1,
     "model": "Device 1",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "2",
+    "_id": 2,
     "model": "Device 2",
-    "department_id": "2"
+    "department_id": 2
   },
   {
-    "_id": "3",
+    "_id": 3,
     "model": "Device 3",
-    "department_id": "3"
+    "department_id": 3
   },
   {
-    "_id": "4",
+    "_id": 4,
     "model": "Device 4",
-    "department_id": "4"
+    "department_id": 4
   },
   {
-    "_id": "5",
+    "_id": 5,
     "model": "Device 5",
-    "department_id": "5"
+    "department_id": 5
   },
   {
-    "_id": "6",
+    "_id": 6,
     "model": "Device 6",
-    "department_id": "6"
+    "department_id": 6
   },
   {
-    "_id": "7",
+    "_id": 7,
     "model": "Device 7",
-    "department_id": "7"
+    "department_id": 7
   },
   {
-    "_id": "8",
+    "_id": 8,
     "model": "Device 8",
-    "department_id": "8"
+    "department_id": 8
   },
   {
-    "_id": "9",
+    "_id": 9,
     "model": "Device 9",
-    "department_id": "9"
+    "department_id": 9
   },
   {
-    "_id": "10",
+    "_id": 10,
     "model": "Device 10",
-    "department_id": "10"
+    "department_id": 10
   },
   {
-    "_id": "11",
+    "_id": 11,
     "model": "Device 11",
-    "department_id": "11"
+    "department_id": 11
   },
   {
-    "_id": "12",
+    "_id": 12,
     "model": "Device 12",
-    "department_id": "12"
+    "department_id": 12
   },
   {
-    "_id": "13",
+    "_id": 13,
     "model": "Device 13",
-    "department_id": "13"
+    "department_id": 13
   },
   {
-    "_id": "14",
+    "_id": 14,
     "model": "Device 14",
-    "department_id": "14"
+    "department_id": 14
   },
   {
-    "_id": "15",
+    "_id": 15,
     "model": "Device 15",
-    "department_id": "15"
+    "department_id": 15
   },
   {
-    "_id": "16",
+    "_id": 16,
     "model": "Device 16",
-    "department_id": "16"
+    "department_id": 16
   },
   {
-    "_id": "17",
+    "_id": 17,
     "model": "Device 17",
-    "department_id": "17"
+    "department_id": 17
   },
   {
-    "_id": "18",
+    "_id": 18,
     "model": "Device 18",
-    "department_id": "18"
+    "department_id": 18
   },
   {
-    "_id": "19",
+    "_id": 19,
     "model": "Device 19",
-    "department_id": "19"
+    "department_id": 19
   },
   {
-    "_id": "20",
+    "_id": 20,
     "model": "Device 20",
-    "department_id": "20"
+    "department_id": 20
   },
   {
-    "_id": "21",
+    "_id": 21,
     "model": "Device 21",
-    "department_id": "21"
+    "department_id": 21
   },
   {
-    "_id": "22",
+    "_id": 22,
     "model": "Device 22",
-    "department_id": "22"
+    "department_id": 22
   },
   {
-    "_id": "23",
+    "_id": 23,
     "model": "Device 23",
-    "department_id": "23"
+    "department_id": 23
   },
   {
-    "_id": "24",
+    "_id": 24,
     "model": "Device 24",
-    "department_id": "24"
+    "department_id": 24
   },
   {
-    "_id": "25",
+    "_id": 25,
     "model": "Device 25",
-    "department_id": "25"
+    "department_id": 25
   },
   {
-    "_id": "26",
+    "_id": 26,
     "model": "Device 26",
-    "department_id": "26"
+    "department_id": 26
   },
   {
-    "_id": "27",
+    "_id": 27,
     "model": "Device 27",
-    "department_id": "27"
+    "department_id": 27
   },
   {
-    "_id": "28",
+    "_id": 28,
     "model": "Device 28",
-    "department_id": "28"
+    "department_id": 28
   },
   {
-    "_id": "29",
+    "_id": 29,
     "model": "Device 29",
-    "department_id": "29"
+    "department_id": 29
   },
   {
-    "_id": "30",
+    "_id": 30,
     "model": "Device 30",
-    "department_id": "30"
+    "department_id": 30
   },
   {
-    "_id": "31",
+    "_id": 31,
     "model": "Device 31",
-    "department_id": "31"
+    "department_id": 31
   },
   {
-    "_id": "32",
+    "_id": 32,
     "model": "Device 32",
-    "department_id": "32"
+    "department_id": 32
   },
   {
-    "_id": "33",
+    "_id": 33,
     "model": "Device 33",
-    "department_id": "33"
+    "department_id": 33
   },
   {
-    "_id": "34",
+    "_id": 34,
     "model": "Device 34",
-    "department_id": "34"
+    "department_id": 34
   },
   {
-    "_id": "35",
+    "_id": 35,
     "model": "Device 35",
-    "department_id": "35"
+    "department_id": 35
   },
   {
-    "_id": "36",
+    "_id": 36,
     "model": "Device 36",
-    "department_id": "36"
+    "department_id": 36
   },
   {
-    "_id": "37",
+    "_id": 37,
     "model": "Device 37",
-    "department_id": "37"
+    "department_id": 37
   },
   {
-    "_id": "38",
+    "_id": 38,
     "model": "Device 38",
-    "department_id": "38"
+    "department_id": 38
   },
   {
-    "_id": "39",
+    "_id": 39,
     "model": "Device 39",
-    "department_id": "39"
+    "department_id": 39
   },
   {
-    "_id": "40",
+    "_id": 40,
     "model": "Device 40",
-    "department_id": "40"
+    "department_id": 40
   },
   {
-    "_id": "41",
+    "_id": 41,
     "model": "Device 41",
-    "department_id": "41"
+    "department_id": 41
   },
   {
-    "_id": "42",
+    "_id": 42,
     "model": "Device 42",
-    "department_id": "42"
+    "department_id": 42
   },
   {
-    "_id": "43",
+    "_id": 43,
     "model": "Device 43",
-    "department_id": "43"
+    "department_id": 43
   },
   {
-    "_id": "44",
+    "_id": 44,
     "model": "Device 44",
-    "department_id": "44"
+    "department_id": 44
   },
   {
-    "_id": "45",
+    "_id": 45,
     "model": "Device 45",
-    "department_id": "45"
+    "department_id": 45
   },
   {
-    "_id": "46",
+    "_id": 46,
     "model": "Device 46",
-    "department_id": "46"
+    "department_id": 46
   },
   {
-    "_id": "47",
+    "_id": 47,
     "model": "Device 47",
-    "department_id": "47"
+    "department_id": 47
   },
   {
-    "_id": "48",
+    "_id": 48,
     "model": "Device 48",
-    "department_id": "48"
+    "department_id": 48
   },
   {
-    "_id": "49",
+    "_id": 49,
     "model": "Device 49",
-    "department_id": "49"
+    "department_id": 49
   },
   {
-    "_id": "50",
+    "_id": 50,
     "model": "Device 50",
-    "department_id": "50"
+    "department_id": 50
   },
   {
-    "_id": "51",
+    "_id": 51,
     "model": "Device 51",
-    "department_id": "51"
+    "department_id": 51
   },
   {
-    "_id": "52",
+    "_id": 52,
     "model": "Device 52",
-    "department_id": "52"
+    "department_id": 52
   },
   {
-    "_id": "53",
+    "_id": 53,
     "model": "Device 53",
-    "department_id": "53"
+    "department_id": 53
   },
   {
-    "_id": "54",
+    "_id": 54,
     "model": "Device 54",
-    "department_id": "54"
+    "department_id": 54
   },
   {
-    "_id": "55",
+    "_id": 55,
     "model": "Device 55",
-    "department_id": "55"
+    "department_id": 55
   },
   {
-    "_id": "56",
+    "_id": 56,
     "model": "Device 56",
-    "department_id": "56"
+    "department_id": 56
   },
   {
-    "_id": "57",
+    "_id": 57,
     "model": "Device 57",
-    "department_id": "57"
+    "department_id": 57
   },
   {
-    "_id": "58",
+    "_id": 58,
     "model": "Device 58",
-    "department_id": "58"
+    "department_id": 58
   },
   {
-    "_id": "59",
+    "_id": 59,
     "model": "Device 59",
-    "department_id": "59"
+    "department_id": 59
   },
   {
-    "_id": "60",
+    "_id": 60,
     "model": "Device 60",
-    "department_id": "60"
+    "department_id": 60
   },
   {
-    "_id": "61",
+    "_id": 61,
     "model": "Device 61",
-    "department_id": "61"
+    "department_id": 61
   },
   {
-    "_id": "62",
+    "_id": 62,
     "model": "Device 62",
-    "department_id": "62"
+    "department_id": 62
   },
   {
-    "_id": "63",
+    "_id": 63,
     "model": "Device 63",
-    "department_id": "63"
+    "department_id": 63
   },
   {
-    "_id": "64",
+    "_id": 64,
     "model": "Device 64",
-    "department_id": "64"
+    "department_id": 64
   },
   {
-    "_id": "65",
+    "_id": 65,
     "model": "Device 65",
-    "department_id": "65"
+    "department_id": 65
   },
   {
-    "_id": "66",
+    "_id": 66,
     "model": "Device 66",
-    "department_id": "66"
+    "department_id": 66
   },
   {
-    "_id": "67",
+    "_id": 67,
     "model": "Device 67",
-    "department_id": "67"
+    "department_id": 67
   },
   {
-    "_id": "68",
+    "_id": 68,
     "model": "Device 68",
-    "department_id": "68"
+    "department_id": 68
   },
   {
-    "_id": "69",
+    "_id": 69,
     "model": "Device 69",
-    "department_id": "69"
+    "department_id": 69
   },
   {
-    "_id": "70",
+    "_id": 70,
     "model": "Device 70",
-    "department_id": "70"
+    "department_id": 70
   },
   {
-    "_id": "71",
+    "_id": 71,
     "model": "Device 71",
-    "department_id": "71"
+    "department_id": 71
   },
   {
-    "_id": "72",
+    "_id": 72,
     "model": "Device 72",
-    "department_id": "72"
+    "department_id": 72
   },
   {
-    "_id": "73",
+    "_id": 73,
     "model": "Device 73",
-    "department_id": "73"
+    "department_id": 73
   },
   {
-    "_id": "74",
+    "_id": 74,
     "model": "Device 74",
-    "department_id": "74"
+    "department_id": 74
   },
   {
-    "_id": "75",
+    "_id": 75,
     "model": "Device 75",
-    "department_id": "75"
+    "department_id": 75
   },
   {
-    "_id": "76",
+    "_id": 76,
     "model": "Device 76",
-    "department_id": "76"
+    "department_id": 76
   },
   {
-    "_id": "77",
+    "_id": 77,
     "model": "Device 77",
-    "department_id": "77"
+    "department_id": 77
   },
   {
-    "_id": "78",
+    "_id": 78,
     "model": "Device 78",
-    "department_id": "78"
+    "department_id": 78
   },
   {
-    "_id": "79",
+    "_id": 79,
     "model": "Device 79",
-    "department_id": "79"
+    "department_id": 79
   },
   {
-    "_id": "80",
+    "_id": 80,
     "model": "Device 80",
-    "department_id": "80"
+    "department_id": 80
   },
   {
-    "_id": "81",
+    "_id": 81,
     "model": "Device 81",
-    "department_id": "81"
+    "department_id": 81
   },
   {
-    "_id": "82",
+    "_id": 82,
     "model": "Device 82",
-    "department_id": "82"
+    "department_id": 82
   },
   {
-    "_id": "83",
+    "_id": 83,
     "model": "Device 83",
-    "department_id": "83"
+    "department_id": 83
   },
   {
-    "_id": "84",
+    "_id": 84,
     "model": "Device 84",
-    "department_id": "84"
+    "department_id": 84
   },
   {
-    "_id": "85",
+    "_id": 85,
     "model": "Device 85",
-    "department_id": "85"
+    "department_id": 85
   },
   {
-    "_id": "86",
+    "_id": 86,
     "model": "Device 86",
-    "department_id": "86"
+    "department_id": 86
   },
   {
-    "_id": "87",
+    "_id": 87,
     "model": "Device 87",
-    "department_id": "87"
+    "department_id": 87
   },
   {
-    "_id": "88",
+    "_id": 88,
     "model": "Device 88",
-    "department_id": "88"
+    "department_id": 88
   },
   {
-    "_id": "89",
+    "_id": 89,
     "model": "Device 89",
-    "department_id": "89"
+    "department_id": 89
   },
   {
-    "_id": "90",
+    "_id": 90,
     "model": "Device 90",
-    "department_id": "90"
+    "department_id": 90
   },
   {
-    "_id": "91",
+    "_id": 91,
     "model": "Device 91",
-    "department_id": "91"
+    "department_id": 91
   },
   {
-    "_id": "92",
+    "_id": 92,
     "model": "Device 92",
-    "department_id": "92"
+    "department_id": 92
   },
   {
-    "_id": "93",
+    "_id": 93,
     "model": "Device 93",
-    "department_id": "93"
+    "department_id": 93
   },
   {
-    "_id": "94",
+    "_id": 94,
     "model": "Device 94",
-    "department_id": "94"
+    "department_id": 94
   },
   {
-    "_id": "95",
+    "_id": 95,
     "model": "Device 95",
-    "department_id": "95"
+    "department_id": 95
   },
   {
-    "_id": "96",
+    "_id": 96,
     "model": "Device 96",
-    "department_id": "96"
+    "department_id": 96
   },
   {
-    "_id": "97",
+    "_id": 97,
     "model": "Device 97",
-    "department_id": "97"
+    "department_id": 97
   },
   {
-    "_id": "98",
+    "_id": 98,
     "model": "Device 98",
-    "department_id": "98"
+    "department_id": 98
   },
   {
-    "_id": "99",
+    "_id": 99,
     "model": "Device 99",
-    "department_id": "99"
+    "department_id": 99
   },
   {
-    "_id": "100",
+    "_id": 100,
     "model": "Device 100",
-    "department_id": "100"
+    "department_id": 100
   },
   {
-    "_id": "200",
+    "_id": 200,
     "model": "DeviceModelB",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "201",
+    "_id": 201,
     "model": "DeviceModelC",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "202",
+    "_id": 202,
     "model": "DeviceModelD",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "203",
+    "_id": 203,
     "model": "DeviceModelB",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "204",
+    "_id": 204,
     "model": "DeviceModelC",
-    "department_id": "4"
+    "department_id": 4
   },
   {
-    "_id": "205",
+    "_id": 205,
     "model": "DeviceModelD",
-    "department_id": "4"
+    "department_id": 4
   },
   {
-    "_id": "206",
+    "_id": 206,
     "model": "DeviceModelB",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "207",
+    "_id": 207,
     "model": "DeviceModelC",
-    "department_id": "1"
+    "department_id": 1
   },
   {
-    "_id": "208",
+    "_id": 208,
     "model": "DeviceModelD",
-    "department_id": "3"
+    "department_id": 3
   }
 ]

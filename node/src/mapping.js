@@ -15,7 +15,7 @@ export async function mapToProductDetails(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.model.toString(), // or ObjectId later
+        _id: row.model, // or ObjectId later
         product_name: row.product_name,
         category: row.category,
         price: parseFloat(row.price),
@@ -52,8 +52,8 @@ export async function mapToProducts(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.product_ID.toString(), // or ObjectId later
-        model: row.model.toString(),
+        _id: row.product_ID, // or ObjectId later
+        model: row.model,
         product_name: row.product_name,
         category: row.category,
         price: parseFloat(row.price),
@@ -95,7 +95,7 @@ export async function mapToWarehouse(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.warehouse_ID.toString(),
+        _id: row.warehouse_ID,
         address: {
             country: row.country,
             city: row.city,
@@ -140,7 +140,7 @@ export async function mapToEmployee(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.employee_ID.toString(),
+        _id: row.employee_ID,
         name: row.name,
         surname: row.surname,
         role: row.role,
@@ -166,8 +166,8 @@ export async function mapToShifts(pool, file) {
             se.clock_in,
             se.clock_out
         FROM shift s
-        JOIN shift_employee se ON s.shift_id = se.shift_id
-        JOIN employee e ON se.employee_id = e.employee_id
+        LEFT JOIN shift_employee se ON s.shift_id = se.shift_id
+        LEFT JOIN employee e ON se.employee_id = e.employee_id
     `);
 
 
@@ -176,25 +176,27 @@ export async function mapToShifts(pool, file) {
 
     // Process each row from the SQL result
     result.recordset.forEach(row => {
-        const shiftId = row.shift_id.toString(); // Shift ID as string
+        const shiftId = row.shift_id; // Shift ID as string
 
         // If the shift is not yet in the map, initialize an empty object for it
         if (!shiftMap[shiftId]) {
             shiftMap[shiftId] = {
                 _id: shiftId,  // Use the shift_id as _id in MongoDB
                 shift_name: row.shift_name,
-                start_time: row.start_time,
-                end_time: row.end_time,
+                start_time: { "$date": (row.start_time)},
+                end_time: { "$date": (row.end_time)},
                 employees: []  // Initialize empty array for employees
             };
         }
 
         // Push the employee data into the shift's employees array
-        shiftMap[shiftId].employees.push({
-            employee_id: row.employee_id.toString(),
-            clock_in: row.clock_in,
-            clock_out: row.clock_out
-        });
+        if (row.employee_id) {
+            shiftMap[shiftId].employees.push({
+                employee_id: row.employee_id,
+                clock_in: { "$date": (row.clock_in) },
+                clock_out: { "$date": (row.clock_out) }
+            });
+        }
     });
 
     // Convert the shiftMap object into an array of shift documents
@@ -225,13 +227,13 @@ export async function mapToIncidentStatuses(pool, file) {
 
     // Process each row from the SQL result
     result.recordset.forEach(row => {
-        const incidentId = row.incident_id.toString(); // Incident ID as string
+        const incidentId = row.incident_id; // Incident ID as string
 
         // If the incident is not yet in the map, initialize an empty object for it
         if (!incidentMap[incidentId]) {
             incidentMap[incidentId] = {
                 incident_id: incidentId,
-                created_at: row.time,  // Set the created_at to the first status time
+                created_at: { "$date": (row.time)},  // Set the created_at to the first status time
                 status_count: 0,       // Initialize status count
                 statuses: []           // Initialize empty array for statuses
             };
@@ -239,9 +241,9 @@ export async function mapToIncidentStatuses(pool, file) {
 
         // Push the status data into the incident's statuses array
         incidentMap[incidentId].statuses.push({
-            shift_id: row.shift_id.toString(),
-            employee_id: row.employee_id.toString(),
-            time: row.time,
+            shift_id: row.shift_id,
+            employee_id: row.employee_id,
+            time: { "$date": (row.time)},
             description: row.description
         });
 
@@ -279,15 +281,15 @@ export async function mapToIncidents(pool, file) {
 
     // Process each row from the SQL result
     result.recordset.forEach(row => {
-        const incidentId = row.incident_ID.toString(); // Incident ID as string
+        const incidentId = row.incident_ID; // Incident ID as string
 
         // If the incident is not yet in the map, initialize an empty object for it
         if (!incidentMap[incidentId]) {
             incidentMap[incidentId] = {
                 _id: incidentId, // MongoDB document ID
-                device_id: row.device_ID.toString(),
-                report_time: row.report_time,
-                repair_time: row.repair_time || null,  // Null if no repair time
+                device_id: row.device_ID,
+                report_time: { "$date": (row.report_time)},
+                repair_time: { "$date": (row.repair_time)} || null,  // Null if no repair time
                 description: row.description,
                 incident_status: row.incident_status,
                 parts_used: []  // Initialize empty array for parts used
@@ -296,7 +298,7 @@ export async function mapToIncidents(pool, file) {
 
         // Add the part to the parts_used array
         incidentMap[incidentId].parts_used.push({
-            product_id: row.product_ID.toString(),
+            product_id: row.product_ID,
             quantity: row.quantity
         });
     });
@@ -322,9 +324,9 @@ export async function mapToDevices(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.device_ID.toString(),
+        _id: row.device_ID,
         model: row.model,
-        department_id: row.department_ID.toString()
+        department_id: row.department_ID
     }));
 
     // save to file
@@ -351,7 +353,7 @@ export async function mapToDepartments(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-        _id: row.department_ID.toString(),
+        _id: row.department_ID,
         department_name: row.department_name,
         address: {
             country: row.country,
@@ -402,15 +404,15 @@ export async function mapToOrders(pool, file) {
 
     // Process each row from the SQL result
     result.recordset.forEach(row => {
-        const orderId = row.order_id.toString(); // Order ID as string
+        const orderId = row.order_id; // Order ID as string
 
         // If the order is not yet in the map, initialize an empty object for it
         if (!orderMap[orderId]) {
             orderMap[orderId] = {
                 _id: orderId, // MongoDB document ID
                 client_id: row.client_id,
-                department_id: row.department_id.toString(),
-                order_date: row.order_date,
+                department_id: row.department_id,
+                order_date: { "$date": (row.order_date)},
                 order_status: row.order_status,
                 invoice_id: row.invoice_id,
                 address: !row.address_id ? null : {
@@ -429,7 +431,7 @@ export async function mapToOrders(pool, file) {
 
         // Add the product to the products array
         orderMap[orderId].products.push({
-            product_id: row.product_id.toString(),
+            product_id: row.product_id,
             quantity: row.quantity,
             status: row.product_status
         });
@@ -465,7 +467,7 @@ export async function mapToInvoices(pool, file) {
 
     // transform each row into MongoDB format
     const documents = result.recordset.map(row => ({
-    _id: row.invoice_id.toString(), // or ObjectId later
+    _id: row.invoice_id, // or ObjectId later
     client_id: row.client_id,
     company_name: row.company_name.toString(),
     nip: row.nip,
@@ -512,7 +514,7 @@ export async function mapToClients(pool, file) {
 
     // Process each row from the SQL result
     result.recordset.forEach(row => {
-        const clientId = row.client_id.toString(); // Client ID as string
+        const clientId = row.client_id; // Client ID as string
 
         // If the client is not yet in the map, initialize an empty object for it
         if (!clientMap[clientId]) {
